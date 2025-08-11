@@ -98,3 +98,5 @@ export function getFirstAccessiblePage(permissions: UserPermissions): string {
   // If no pages accessible, return login (this shouldn't happen)
   return '/login'
 }
+
+

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Bell, FlaskConical, Clock, CheckCircle, AlertCircle, ArrowRight, Loader2, Factory } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { testDataService, type TestData } from "@/lib/firebase/services/test-data"
@@ -381,3 +381,4 @@ export function MachineOperatorDashboard({ machine }: MachineOperatorDashboardPr
     </div>
   )
 } 
+

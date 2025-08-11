@@ -4,10 +4,10 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { ProtectedRoute } from '@/components/auth/protected-route';
 // Remove DashboardLayout import as AppLayout is already provided by root layout
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Input } from '@workspace/ui/components/input';
-import { Button } from '@workspace/ui/components/button';
-import { Label } from '@workspace/ui/components/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import { testDataService, TestData } from '@/lib/firebase/services/test-data';
 import { productsService } from '@/lib/firebase/services/products';
 import { Search, Filter, CheckCircle2, Clock, Calendar, AlertCircle } from 'lucide-react';
@@ -333,3 +333,4 @@ export default function PendingTestsPage() {
     </Suspense>
   )
 }
+

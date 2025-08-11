@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Users, CheckCircle } from "lucide-react"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 
@@ -122,3 +122,4 @@ export default function SetupMachineUsersPage() {
     </ProtectedRoute>
   )
 } 
+

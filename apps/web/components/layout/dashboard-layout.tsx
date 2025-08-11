@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@/components/ui/button"
 import {
   FileText,
   FlaskConical,
@@ -129,3 +129,4 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     </div>
   )
 } 
+

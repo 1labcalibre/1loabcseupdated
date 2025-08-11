@@ -1,7 +1,7 @@
 "use client"
 
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 
@@ -122,3 +122,4 @@ export default function TestWorkflowPage() {
     </ProtectedRoute>
   )
 } 
+

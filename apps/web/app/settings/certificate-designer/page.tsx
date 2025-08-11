@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { CertificateDesigner } from "@/components/certificate-designer"
 
@@ -41,3 +41,4 @@ export default function CertificateDesignerPage() {
     </div>
   )
 } 
+

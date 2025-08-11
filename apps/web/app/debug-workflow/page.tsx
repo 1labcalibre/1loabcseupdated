@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { testDataService, type TestData } from "@/lib/firebase/services/test-data"
 import { notificationsService, type Notification } from "@/lib/firebase/services/notifications"
 import { usersService, type User } from "@/lib/firebase/services/users"
@@ -239,3 +239,4 @@ export default function DebugWorkflowPage() {
     </ProtectedRoute>
   )
 } 
+

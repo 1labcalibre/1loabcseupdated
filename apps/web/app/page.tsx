@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@workspace/ui/components/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, FlaskConical, Package, CheckCircle, Settings, Users, BarChart3, ArrowRight, Clock, AlertCircle, Shield, GitBranch, Activity, Database, Loader2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { ProtectedRoute } from "@/components/auth/protected-route"
@@ -371,3 +371,5 @@ export default function DashboardPage() {
     </ProtectedRoute>
   )
 }
+
+

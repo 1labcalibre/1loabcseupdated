@@ -3,9 +3,9 @@
 import { useEffect, useState, Suspense } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Button } from "@workspace/ui/components/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ArrowLeft, Download, Printer } from "lucide-react"
 import { productsService, type Product } from "@/lib/firebase/services/products"
 
@@ -194,3 +194,4 @@ export default function TensileReportPage() {
     </Suspense>
   )
 } 
+

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@/components/ui/button"
 import { ArrowLeft, Printer } from "lucide-react"
 // Dynamic import for jsPDF to handle SSR issues
 // import jsPDF from 'jspdf'
@@ -730,3 +730,4 @@ export default function CertificateViewPage() {
     </div>
   )
 }
+

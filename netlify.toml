@@ -1,10 +1,10 @@
 [build]
-  # Build command for the monorepo structure
-  command = "chmod +x netlify-build.sh && ./netlify-build.sh"
-  # Publish directory - Next.js output
-  publish = "apps/web/.next"
-  # Base directory for the build
-  base = "."
+  # Build command - run from the web app directory
+  command = "npm install --legacy-peer-deps && npm run build -- --no-lint"
+  # Publish directory - Next.js output (relative to base)
+  publish = ".next"
+  # Base directory for the build - focus on the web app
+  base = "apps/web"
 
 [build.environment]
   # Node.js version

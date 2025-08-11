@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select"
-import { Switch } from "@workspace/ui/components/switch"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { Save, Mail, Building, FileText, ArrowLeft, Database, Loader2, AlertTriangle, FlaskConical, CheckCircle } from "lucide-react"
 import { seedDatabase, clearDatabase } from "@/lib/firebase/seed-database"
 import { useAuth } from "@/contexts/auth-context"
@@ -569,3 +569,4 @@ export default function SettingsPage() {
     </ProtectedRoute>
   )
 } 
+

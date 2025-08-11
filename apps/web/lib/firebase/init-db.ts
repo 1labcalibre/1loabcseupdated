@@ -160,3 +160,4 @@ export const collections = {
   settings: 'settings',
   pendingApprovals: 'pendingApprovals'
 } 
+

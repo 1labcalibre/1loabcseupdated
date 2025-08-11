@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { testDataService } from '@/lib/firebase/services/test-data';
 import { ProtectedRoute } from '@/components/auth/protected-route';
 import { useAuth } from '@/contexts/auth-context';
@@ -86,3 +86,4 @@ export default function DebugTestDataPage() {
     </ProtectedRoute>
   );
 } 
+
