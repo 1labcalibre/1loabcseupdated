@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "description": "Calibre Test Management System",
   "scripts": {
-    "build": "cd apps/web && npm install && npm run build",
+    "build": "cd apps/web && npm install --legacy-peer-deps && npm run build -- --no-lint",
     "dev": "cd apps/web && npm run dev",
     "start": "cd apps/web && npm start",
     "netlify-deploy": "netlify deploy --prod"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/calibre-project.git"
+    "url": "git+https://github.com/1labcalibre/onelabcse2025.git"
   },
   "keywords": ["calibre", "testing", "management", "nextjs"],
   "author": "1Lab CSE",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
 }

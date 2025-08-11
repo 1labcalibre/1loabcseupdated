@@ -5,6 +5,10 @@ node_modules/
 .yarn/unplugged
 .yarn/install-state.gz
 
+# Lock files (using npm for deployment)
+pnpm-lock.yaml
+yarn.lock
+
 # Production builds
 .next/
 out/

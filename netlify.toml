@@ -1,6 +1,6 @@
 [build]
   # Build command for the monorepo structure
-  command = "cd apps/web && npm install && npm run build"
+  command = "chmod +x netlify-build.sh && ./netlify-build.sh"
   # Publish directory - Next.js output
   publish = "apps/web/.next"
   # Base directory for the build
@@ -9,8 +9,10 @@
 [build.environment]
   # Node.js version
   NODE_VERSION = "18"
-  # NPM cache
-  NPM_FLAGS = "--legacy-peer-deps"
+  # Use npm instead of pnpm to avoid lockfile issues
+  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
+  # Disable pnpm auto-detection
+  NPM_CONFIG_FUND = "false"
 
 # API routes are handled by Next.js API functions
 [[redirects]]
