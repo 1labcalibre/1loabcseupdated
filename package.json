@@ -1,0 +1,18 @@
+{
+  "name": "calibre-project",
+  "version": "1.0.0",
+  "description": "Calibre Test Management System",
+  "scripts": {
+    "build": "cd apps/web && npm install && npm run build",
+    "dev": "cd apps/web && npm run dev",
+    "start": "cd apps/web && npm start",
+    "netlify-deploy": "netlify deploy --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/calibre-project.git"
+  },
+  "keywords": ["calibre", "testing", "management", "nextjs"],
+  "author": "1Lab CSE",
+  "license": "MIT"
+}

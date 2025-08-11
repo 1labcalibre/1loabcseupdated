@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer red oval -->
+  <ellipse cx="100" cy="60" rx="95" ry="55" fill="none" stroke="#dc2626" stroke-width="6"/>
+  <!-- Inner blue oval -->
+  <ellipse cx="100" cy="60" rx="85" ry="45" fill="none" stroke="#1e40af" stroke-width="4"/>
+  
+  <!-- CSE Text -->
+  <text x="100" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#dc2626" text-anchor="middle">CSE</text>
+  
+  <!-- Calibre Specialty Elastomers text -->
+  <text x="100" y="85" font-family="Arial, sans-serif" font-size="12" fill="#1e40af" text-anchor="middle">Calibre Specialty Elastomers</text>
+</svg>

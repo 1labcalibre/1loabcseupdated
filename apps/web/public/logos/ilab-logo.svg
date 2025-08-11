@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Black background rectangle -->
+  <rect x="0" y="0" width="200" height="80" fill="#000000"/>
+  
+  <!-- ILAB text -->
+  <text x="100" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#ffffff" text-anchor="middle">ILAB</text>
+  <text x="190" y="20" font-family="Arial, sans-serif" font-size="8" fill="#ffffff">TM</text>
+  
+  <!-- Calibre Specialty Elastomers text -->
+  <text x="100" y="55" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle">CALIBRE SPECIALTY ELASTOMERS</text>
+</svg>
