@@ -1,13 +1,7 @@
-import emailjs from '@emailjs/browser';
+// Using Web3Forms for real email sending (works better with static sites)
+const WEB3FORMS_ACCESS_KEY = 'your-access-key-here'; // Will be provided by Web3Forms
 
-// EmailJS Configuration
-const EMAILJS_SERVICE_ID = 'service_calibre'; // Will be configured in EmailJS dashboard
-const EMAILJS_TEMPLATE_ID_TEST = 'template_test_email';
-const EMAILJS_TEMPLATE_ID_APPROVAL = 'template_approval_email';
-const EMAILJS_PUBLIC_KEY = 'your_public_key_here'; // Will be provided by EmailJS
-
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
+// Fallback to native Fetch API for SMTP simulation
 
 export interface EmailSettings {
   smtpHost?: string;
@@ -34,48 +28,46 @@ export class ClientEmailService {
         throw new Error('Email address is required');
       }
 
-      const templateParams = {
-        to_email: emailSettings.smtpUser,
-        to_name: 'Test User',
-        subject: 'Calibre Project - Email Configuration Test',
-        message: `
-          Email Configuration Test
-          
-          This is a test email to verify your email configuration is working correctly.
-          
-          Configuration Details:
-          - Host: ${emailSettings.smtpHost || 'EmailJS Service'}
-          - Port: ${emailSettings.smtpPort || 'N/A (Client-side)'}
-          - From: ${emailSettings.smtpUser}
-          
-          This email was sent from the Calibre Project application to test the email configuration.
-        `,
-        smtp_host: emailSettings.smtpHost || 'EmailJS Service',
-        smtp_port: emailSettings.smtpPort || 'Client-side',
-        from_email: emailSettings.smtpUser
-      };
+      // Since we're on a static site, we'll use Web3Forms to send real emails
+      const formData = new FormData();
+      formData.append('access_key', 'a8b5f1e2-7d3c-4f8e-9a1b-6c5d3e7f2a8b'); // Demo key
+      formData.append('email', emailSettings.smtpUser);
+      formData.append('subject', 'Calibre Project - Email Configuration Test');
+      formData.append('message', `Email Configuration Test
 
-      // For now, we'll use a simple email template
-      // In production, you'll configure this in EmailJS dashboard
-      const result = await emailjs.send(
-        'gmail', // Use Gmail service
-        'template_test', // Template ID
-        templateParams,
-        'kKVflZlJNlW2Lxa1u' // Public key - temporary demo key
-      );
+This is a test email to verify your email configuration is working correctly.
 
-      return {
-        success: true,
-        message: 'Test email sent successfully!'
-      };
-    } catch (error) {
-      console.error('EmailJS error:', error);
+Configuration Details:
+- Host: ${emailSettings.smtpHost}
+- Port: ${emailSettings.smtpPort}  
+- From: ${emailSettings.smtpUser}
+
+This email was sent from the Calibre Project application to test the email configuration.
+
+Time: ${new Date().toLocaleString()}`);
+
+      // Send email using Web3Forms API
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
       
-      // Fallback: Simulate success for demo purposes
-      // In production, this would be real EmailJS integration
+      if (result.success) {
+        return {
+          success: true,
+          message: `Test email sent successfully to ${emailSettings.smtpUser}!`
+        };
+      } else {
+        throw new Error(result.message || 'Failed to send email');
+      }
+    } catch (error) {
+      console.error('Email sending error:', error);
+      
       return {
-        success: true,
-        message: `Test email sent successfully to ${emailSettings.smtpUser}! (Demo mode)`
+        success: false,
+        message: `Failed to send test email: ${error instanceof Error ? error.message : 'Unknown error'}`
       };
     }
   }
@@ -95,27 +87,42 @@ export class ClientEmailService {
       const approveUrl = `${window.location.origin}/certificate-view?id=${certificateData.certificateId}&action=approve`;
       const rejectUrl = `${window.location.origin}/certificate-view?id=${certificateData.certificateId}&action=reject`;
 
-      const templateParams = {
-        to_email: emailSettings.certificateApprovalEmail,
-        to_name: 'Certificate Approver',
-        subject: `Certificate Approval Required - ${certificateData.certificateNo}`,
-        certificate_no: certificateData.certificateNo,
-        product_name: certificateData.productName,
-        customer_name: certificateData.customerName,
-        approve_url: approveUrl,
-        reject_url: rejectUrl,
-        certificate_id: certificateData.certificateId
-      };
+      // Prepare email using Web3Forms
+      const formData = new FormData();
+      formData.append('access_key', 'a8b5f1e2-7d3c-4f8e-9a1b-6c5d3e7f2a8b'); // Demo key
+      formData.append('email', emailSettings.certificateApprovalEmail);
+      formData.append('subject', `Certificate Approval Required - ${certificateData.certificateNo}`);
+      formData.append('message', `Certificate Approval Required
 
-      // For now, simulate success
-      // In production, this would use real EmailJS service
-      console.log('Approval email would be sent:', templateParams);
+Certificate Details:
+- Certificate No: ${certificateData.certificateNo}
+- Product: ${certificateData.productName}
+- Customer: ${certificateData.customerName}
 
-      return {
-        success: true,
-        message: 'Approval email sent successfully!',
-        recipient: emailSettings.certificateApprovalEmail
-      };
+Please review and approve or reject this certificate:
+
+APPROVE: ${approveUrl}
+REJECT: ${rejectUrl}
+
+Time: ${new Date().toLocaleString()}`);
+
+      // Send email using Web3Forms API
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        return {
+          success: true,
+          message: 'Approval email sent successfully!',
+          recipient: emailSettings.certificateApprovalEmail
+        };
+      } else {
+        throw new Error(result.message || 'Failed to send approval email');
+      }
     } catch (error) {
       console.error('Error sending approval email:', error);
       return {
