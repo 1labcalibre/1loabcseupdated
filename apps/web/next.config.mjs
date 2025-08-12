@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@workspace/ui"],
-  output: 'export', // Enabled for Netlify static export with Functions
-  trailingSlash: true,
+  output: 'export',
+  trailingSlash: false, // Disable trailing slash for better Netlify compatibility
   images: {
     unoptimized: true
   },
@@ -12,10 +12,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  // Disable features that don't work with static export
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
+  // Configure for static export
+  distDir: 'out',
 }
 
 export default nextConfig
