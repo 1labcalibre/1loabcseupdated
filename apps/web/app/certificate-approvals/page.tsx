@@ -243,7 +243,7 @@ export default function CertificateApprovalsPage() {
         return
       }
       
-      const response = await fetch('/api/send-approval-email', {
+      const response = await fetch('/.netlify/functions/send-approval-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,9 +1,7 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
-  // Add logging for debugging
-  console.log('Function called:', event.httpMethod);
-  console.log('Headers:', JSON.stringify(event.headers));
+  console.log('Netlify Function: test-email called');
   // Set CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -29,8 +27,6 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    console.log('Raw body:', event.body);
-    
     if (!event.body) {
       return {
         statusCode: 400,
@@ -40,11 +36,6 @@ exports.handler = async (event, context) => {
     }
 
     const { smtpSettings } = JSON.parse(event.body);
-    console.log('Parsed SMTP settings:', { 
-      host: smtpSettings?.smtpHost, 
-      port: smtpSettings?.smtpPort,
-      user: smtpSettings?.smtpUser ? 'present' : 'missing'
-    });
 
     if (!smtpSettings) {
       return {

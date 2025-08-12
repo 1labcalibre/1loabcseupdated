@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@workspace/ui"],
-  // output: 'export', // Disabled - using server-side deployment for API routes
+  output: 'export', // Enabled for Netlify static export with Functions
   trailingSlash: true,
   images: {
     unoptimized: true
