@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "out"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -9,32 +9,12 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Install Next.js plugin for Netlify
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 # API routes to Netlify Functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
-  status = 200
-
-# Static files - serve directly
-[[redirects]]
-  from = "/_next/*"
-  to = "/_next/:splat"
-  status = 200
-
-# Handle specific routes for static files
-[[redirects]]
-  from = "/favicon.ico"
-  to = "/favicon.ico"
-  status = 200
-
-# Handle logos
-[[redirects]]
-  from = "/logos/*"
-  to = "/logos/:splat"
-  status = 200
-
-# SPA fallback for client-side routing - MUST be last
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
   status = 200

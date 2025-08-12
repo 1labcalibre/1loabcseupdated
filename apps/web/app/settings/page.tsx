@@ -61,7 +61,7 @@ export default function SettingsPage() {
   const handleTestEmail = async () => {
     try {
       setTestingEmail(true)
-      const response = await fetch('/.netlify/functions/test-email', {
+      const response = await fetch('/api/test-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

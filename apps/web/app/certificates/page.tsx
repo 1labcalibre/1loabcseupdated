@@ -863,7 +863,7 @@ export default function CertificatesPage() {
               issueDate: previewData.issueDate
             }
             
-            const emailResponse = await fetch('/.netlify/functions/send-approval-email', {
+            const emailResponse = await fetch('/api/send-approval-email', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
