@@ -843,43 +843,23 @@ export default function CertificatesPage() {
           
           if (emailSettings.enableEmailApprovals && emailSettings.certificateApprovalEmail) {
             
-            // Prepare complete certificate data for email (same structure as certificateViewData)
+            // Prepare simplified certificate data for email
             const certificateForEmail = {
-              id: result.id,
-              certificateNumber: result.certificateNo,
+              certificateId: result.id,
               certificateNo: result.certificateNo,
               productName: previewData.productName,
-              batchNo: previewData.batchNo,
-              customerName: previewData.customerName,
-              customerAddress: previewData.customerAddress,
-              invoiceNo: previewData.invoiceNo,
-              supplyQuantity: previewData.supplyQuantity,
-              lotNo: previewData.lotNo,
-              netWeight: previewData.netWeight,
-              shelfLife: previewData.shelfLife,
-              status: certificateData.status,
-              testData: previewData.testData,
-              manualTestData: manualTestData,
-              issueDate: previewData.issueDate
+              customerName: previewData.customerName
             }
             
-            const emailResponse = await fetch('/api/send-approval-email', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                certificateData: certificateForEmail,
-                emailSettings: emailSettings
-              })
-            })
+            // Import client-side email service
+            const { ClientEmailService } = await import('@/lib/email-service')
             
-            if (emailResponse.ok) {
-              const emailResult = await emailResponse.json()
+            const emailResult = await ClientEmailService.sendApprovalEmail(certificateForEmail, emailSettings)
+            
+            if (emailResult.success) {
               console.log('Approval email sent successfully:', emailResult)
             } else {
-              const emailError = await emailResponse.json()
-              console.warn('Failed to send approval email:', emailError.error)
+              console.warn('Failed to send approval email:', emailResult.message)
               // Don't block certificate creation if email fails
             }
           } else {

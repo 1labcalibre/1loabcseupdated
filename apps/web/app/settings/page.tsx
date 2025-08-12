@@ -61,18 +61,21 @@ export default function SettingsPage() {
   const handleTestEmail = async () => {
     try {
       setTestingEmail(true)
-      const response = await fetch('/api/test-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          smtpSettings: settings?.emailSettings 
-        })
-      })
       
-      if (response.ok) {
-        setMessage({ type: 'success', text: 'Test email sent successfully!' })
+      // Import client-side email service
+      const { ClientEmailService } = await import('@/lib/email-service')
+      
+      if (!settings?.emailSettings) {
+        setMessage({ type: 'error', text: 'Email settings not configured' })
+        return
+      }
+
+      const result = await ClientEmailService.sendTestEmail(settings.emailSettings)
+      
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message })
       } else {
-        setMessage({ type: 'error', text: 'Failed to send test email. Check your configuration.' })
+        setMessage({ type: 'error', text: result.message })
       }
     } catch (error) {
       console.error('Error testing email:', error)

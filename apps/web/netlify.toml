@@ -1,20 +1,12 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "18"
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-
-# Install Next.js plugin for Netlify
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# API routes to Netlify Functions
+# SPA routing for static export
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200

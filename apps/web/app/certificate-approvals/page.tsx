@@ -216,23 +216,10 @@ export default function CertificateApprovalsPage() {
         if (fullCertificate) {
           // Try to construct complete data or use what we have
           certificateForEmail = {
-            id: certificate.id,
-            certificateNumber: certificate.certificateNo,
+            certificateId: certificate.id || certificateId,
             certificateNo: certificate.certificateNo,
             productName: certificate.productName,
-            batchNo: certificate.batchNo,
-            customerName: certificate.customerName,
-            customerAddress: certificate.customerAddress || '',
-            invoiceNo: certificate.invoiceNo || '',
-            supplyQuantity: '',
-            lotNo: '',
-            netWeight: certificate.netWeight || '',
-            shelfLife: certificate.shelfLife || '',
-            issueDate: certificate.issueDate,
-            status: certificate.status,
-            // Use empty test data for manual emails - they can still approve/reject
-            testData: { attributes: [] },
-            manualTestData: []
+            customerName: certificate.customerName
           }
         } else {
           throw new Error('Certificate not found')
@@ -243,24 +230,16 @@ export default function CertificateApprovalsPage() {
         return
       }
       
-      const response = await fetch('/api/send-approval-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          certificateData: certificateForEmail,
-          emailSettings: emailSettings
-        })
-      })
+      // Import client-side email service
+      const { ClientEmailService } = await import('@/lib/email-service')
       
-      if (response.ok) {
-        const result = await response.json()
-        alert(`Approval email sent successfully to ${result.approvalEmail}!`)
+      const result = await ClientEmailService.sendApprovalEmail(certificateForEmail, emailSettings)
+      
+      if (result.success) {
+        alert(`Approval email sent successfully to ${result.recipient}!`)
         await loadAllCertificates() // Reload to show email sent status
       } else {
-        const error = await response.json()
-        alert(`Failed to send approval email: ${error.error}`)
+        alert(`Failed to send approval email: ${result.message}`)
       }
     } catch (error) {
       console.error('Error sending approval email:', error)

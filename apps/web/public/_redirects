@@ -1,10 +1,2 @@
-# API routes to Netlify Functions
-/api/* /.netlify/functions/:splat 200
-
-# Static assets - serve directly
-/_next/* /_next/:splat 200
-/favicon.ico /favicon.ico 200
-/logos/* /logos/:splat 200
-
-# SPA fallback for client-side routing - MUST be last
+# SPA fallback for client-side routing
 /* /index.html 200
