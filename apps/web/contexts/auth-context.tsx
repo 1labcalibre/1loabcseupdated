@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error fetching user data:', error)
       // If it's a permission error and user is not authenticated, ignore it
-      if (error && typeof error === 'object' && 'code' in error && error.code === 'permission-denied' && !auth.currentUser) {
+      if ((error as any).code === 'permission-denied' && !auth.currentUser) {
         console.warn('Permission denied during logout - ignoring');
         return;
       }
@@ -281,4 +281,3 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     </AuthContext.Provider>
   )
 } 
-

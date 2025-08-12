@@ -1,26 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@workspace/ui"],
+  // output: 'export', // Disabled - using server-side deployment for API routes
+  trailingSlash: true,
   images: {
     unoptimized: true
   },
-  // Configure for Netlify deployment
-  async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
-        ],
-      },
-    ]
+  typescript: {
+    ignoreBuildErrors: false,
   },
-  // Ensure proper trailing slash handling
-  trailingSlash: false,
-  // Optimize for production
-  poweredByHeader: false,
-  reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  // Disable features that don't work with static export
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 }
 
 export default nextConfig

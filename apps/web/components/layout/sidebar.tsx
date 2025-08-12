@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { Button } from "@workspace/ui/components/button"
 import { 
   ChevronLeft, 
   ChevronRight,
@@ -305,4 +305,3 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
     </>
   )
 } 
-

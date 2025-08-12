@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@workspace/ui/components/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { Bell, FlaskConical, Clock, CheckCircle, AlertCircle, ArrowRight, Loader2, Factory } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { testDataService, type TestData } from "@/lib/firebase/services/test-data"
@@ -241,7 +241,7 @@ export function MachineOperatorDashboard({ machine }: MachineOperatorDashboardPr
             </Button>
           </Link>
           {pendingTests.length > 0 && (
-            <Link href={`/test-entry?referenceNo=${pendingTests[0]?.referenceNo || ''}`} className="block">
+            <Link href={`/test-entry?referenceNo=${pendingTests[0]?.referenceNo}`} className="block">
               <Button variant="outline" className="w-full h-auto flex-col py-4 hover:scale-105 transition-transform bg-orange-50 border-orange-200 hover:bg-orange-100">
                 <AlertCircle className="h-6 w-6 mb-2 text-orange-600" />
                 <span className="text-xs sm:text-sm">Continue Test</span>
@@ -381,4 +381,3 @@ export function MachineOperatorDashboard({ machine }: MachineOperatorDashboardPr
     </div>
   )
 } 
-

@@ -248,4 +248,3 @@ export function hasOutOfRangeValues(
   }
   return false
 }
-

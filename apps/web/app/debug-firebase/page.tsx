@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@workspace/ui/components/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { productsService } from '@/lib/firebase/services/products'
 import { db } from '@/lib/firebase/config'
 import { collection, getDocs } from 'firebase/firestore'
@@ -102,4 +102,3 @@ export default function DebugFirebasePage() {
     </div>
   )
 } 
-

@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@workspace/ui/components/button"
+import { Input } from "@workspace/ui/components/input"
+import { Label } from "@workspace/ui/components/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { ArrowLeft, Plus, Edit2, Trash2, Save, X, ArrowUp, ArrowDown, Loader2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { ProtectedRoute } from "@/components/auth/protected-route"
@@ -114,16 +114,14 @@ export default function TestParametersPage() {
     const newParams = [...parameters]
     const prevParam = newParams[index - 1]
     
-    if (!prevParam) return
-    
     // Swap orders
     const tempOrder = param.order
-    param.order = prevParam.order
-    prevParam.order = tempOrder
+    param.order = prevParam?.order || 0
+    if (prevParam) prevParam.order = tempOrder
     
     // Save both
     await testParametersService.save(param)
-    await testParametersService.save(prevParam)
+    if (prevParam) await testParametersService.save(prevParam)
     await loadParameters()
   }
 
@@ -133,16 +131,14 @@ export default function TestParametersPage() {
     const newParams = [...parameters]
     const nextParam = newParams[index + 1]
     
-    if (!nextParam) return
-    
     // Swap orders
     const tempOrder = param.order
-    param.order = nextParam.order
-    nextParam.order = tempOrder
+    param.order = nextParam?.order || 0
+    if (nextParam) nextParam.order = tempOrder
     
     // Save both
     await testParametersService.save(param)
-    await testParametersService.save(nextParam)
+    if (nextParam) await testParametersService.save(nextParam)
     await loadParameters()
   }
 
@@ -411,4 +407,3 @@ export default function TestParametersPage() {
     </ProtectedRoute>
   )
 } 
-

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@workspace/ui/components/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { FileText, FlaskConical, Package, CheckCircle, Settings, Users, BarChart3, ArrowRight, Clock, AlertCircle, Shield, GitBranch, Activity, Database, Loader2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { ProtectedRoute } from "@/components/auth/protected-route"
@@ -74,9 +74,7 @@ export default function DashboardPage() {
       const allTests = await testDataService.getAll()
       const today = new Date().toISOString().split('T')[0]
       const testsToday = allTests.filter(test => test.testDate === today)
-      const pendingTests = allTests.filter(test => 
-        test.status === 'pending_g1' || test.status === 'pending_g2' || test.status === 'pending_g3'
-      )
+      const pendingTests = allTests.filter(test => test.status && ['pending_g1', 'pending_g2', 'pending_g3'].includes(test.status))
       
       // Load certificates
       const certificates = await certificatesService.getAll()
@@ -104,7 +102,7 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Error loading dashboard data:', error)
       // If permission denied, user might be logging out
-      if (error && typeof error === 'object' && 'code' in error && error.code === 'permission-denied') {
+      if ((error as any).code === 'permission-denied') {
         console.warn('Permission denied loading dashboard data - user may be logging out')
         return
       }
@@ -371,5 +369,3 @@ export default function DashboardPage() {
     </ProtectedRoute>
   )
 }
-
-

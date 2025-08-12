@@ -234,7 +234,7 @@ export async function seedDatabase() {
       acc[test.batchNo].push(test)
     }
     return acc
-  }, {} as Record<string, typeof testDataEntries>)
+  }, {} as Record<string, any[]>)
 
   // Create certificates for some batches
   Object.entries(batchGroups).slice(0, 10).forEach(([batchNo, tests], index) => {
@@ -242,7 +242,6 @@ export async function seedDatabase() {
     if (!product) return
 
     const customer = customers[index % customers.length]
-    if (!customer) return
     const certificateNo = `COA-2025-${String(index + 1).padStart(4, '0')}`
     
     // Calculate mean values for the batch
@@ -254,9 +253,9 @@ export async function seedDatabase() {
     ]
     
     testParameters.forEach(param => {
-      const values = (tests as any).map((t: any) => t.values[param]).filter((v: any) => v !== undefined)
+      const values = (tests as any[]).map((t: any) => t.values[param]).filter((v: any) => v !== undefined)
       if (values.length > 0) {
-        meanValues[param] = parseFloat((values.reduce((a: any, b: any) => a + b, 0) / values.length).toFixed(2))
+        meanValues[param] = parseFloat((values.reduce((a: number, b: number) => a + b, 0) / values.length).toFixed(2))
       }
     })
 
@@ -265,8 +264,8 @@ export async function seedDatabase() {
       productId: product.id,
       productName: product.name,
       batchNo,
-      customerName: customer.name,
-      customerAddress: customer.address,
+      customerName: customer?.name || 'Unknown Customer',
+      customerAddress: customer?.address || 'Unknown Address',
       invoiceNo: `INV-2025-${String(Math.floor(Math.random() * 9999)).padStart(4, '0')}`,
       supplyQuantity: `${Math.floor(Math.random() * 900) + 100} kg`,
       lotNo: `LOT-${batchNo}`,
@@ -359,4 +358,3 @@ export async function reseedDatabase() {
   await seedDatabase()
   console.log('Database reseeded successfully!')
 } 
-

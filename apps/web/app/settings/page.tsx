@@ -441,14 +441,7 @@ export default function SettingsPage() {
                   />
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <Link href="/settings/certificate-designer">
-                  <Button variant="outline" className="w-full">
-                    <FileText className="mr-2 h-4 w-4" />
-                    Open Certificate Designer
-                  </Button>
-                </Link>
-              </div>
+              {/* Certificate designer removed */}
             </CardContent>
           </Card>
 

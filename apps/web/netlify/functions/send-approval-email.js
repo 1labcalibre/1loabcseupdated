@@ -1,22 +1,57 @@
-import { NextRequest, NextResponse } from "next/server"
-import nodemailer from "nodemailer"
+const nodemailer = require('nodemailer');
 
-export async function POST(request: NextRequest) {
+exports.handler = async (event, context) => {
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: '',
+    };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
+  }
+
   try {
-    const { certificateData, emailSettings } = await request.json()
+    const { certificateData, emailSettings } = JSON.parse(event.body);
     
     if (!certificateData) {
-      return NextResponse.json({ error: "Certificate data is required" }, { status: 400 })
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "Certificate data is required" }),
+      };
     }
     
-    const { certificateId, certificateNo, productName, customerName } = certificateData
+    const { certificateId, certificateNo, productName, customerName } = certificateData;
 
     if (!certificateId || !certificateNo || !emailSettings) {
-      return NextResponse.json({ error: "Required parameters missing" }, { status: 400 })
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "Required parameters missing" }),
+      };
     }
 
     if (!emailSettings.certificateApprovalEmail) {
-      return NextResponse.json({ error: "Certificate approval email not configured" }, { status: 400 })
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "Certificate approval email not configured" }),
+      };
     }
 
     // Create transporter
@@ -28,12 +63,12 @@ export async function POST(request: NextRequest) {
         user: emailSettings.smtpUser,
         pass: emailSettings.smtpPassword
       }
-    })
+    });
 
-    // Generate approval URLs - use the request origin
-    const origin = request.headers.get('origin') || 'http://localhost:3000'
-    const approveUrl = `${origin}/certificate-view?id=${certificateId}&action=approve`
-    const rejectUrl = `${origin}/certificate-view?id=${certificateId}&action=reject`
+    // Generate approval URLs - use the current site URL
+    const siteUrl = event.headers.origin || 'https://your-site.netlify.app';
+    const approveUrl = `${siteUrl}/certificate-view?id=${certificateId}&action=approve`;
+    const rejectUrl = `${siteUrl}/certificate-view?id=${certificateId}&action=reject`;
 
     // Email content
     const mailOptions = {
@@ -91,22 +126,30 @@ export async function POST(request: NextRequest) {
           </div>
         </div>
       `
-    }
+    };
 
     // Send approval email
-    await transporter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "Approval email sent successfully!",
-      recipient: emailSettings.certificateApprovalEmail
-    })
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ 
+        success: true, 
+        message: "Approval email sent successfully!",
+        recipient: emailSettings.certificateApprovalEmail
+      }),
+    };
 
   } catch (error) {
-    console.error("Error sending approval email:", error)
-    return NextResponse.json({ 
-      error: "Failed to send approval email", 
-      details: error instanceof Error ? error.message : "Unknown error"
-    }, { status: 500 })
+    console.error("Error sending approval email:", error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ 
+        error: "Failed to send approval email", 
+        details: error.message || "Unknown error"
+      }),
+    };
   }
-}
+};

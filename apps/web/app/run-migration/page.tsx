@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@workspace/ui/components/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { addCompletedByIdMigration } from '@/lib/firebase/migrations/add-completed-by-id';
 import { fixInitialCompletedById } from '@/lib/firebase/migrations/fix-initial-completed-by-id';
 import { ProtectedRoute } from '@/components/auth/protected-route';
@@ -32,7 +32,7 @@ export default function RunMigrationPage() {
         success: result1.success && result2.success
       });
     } catch (error) {
-      setResult({ success: false, error: error instanceof Error ? error.message : String(error) });
+      setResult({ success: false, error: (error as Error).message });
     } finally {
       setRunning(false);
     }
@@ -73,4 +73,3 @@ export default function RunMigrationPage() {
     </ProtectedRoute>
   );
 } 
-

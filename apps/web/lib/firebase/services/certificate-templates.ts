@@ -161,26 +161,9 @@ interface FirebaseTemplateElement extends Omit<TemplateElement, 'config'> {
   config?: {
     fieldType?: string;
     tableConfig?: FirebaseTableConfig;
-    imageConfig?: {
-      src?: string;
-      alt?: string;
-      alignment?: 'left' | 'center' | 'right';
-      width?: string;
-      height?: string;
-      objectFit?: 'contain' | 'cover' | 'fill';
-    };
-    signatureConfig?: {
-      title?: string;
-      showDate?: boolean;
-      showName?: boolean;
-      showTitle?: boolean;
-      alignment?: 'left' | 'center' | 'right';
-    };
-    lineConfig?: {
-      elements: LineElement[];
-      height?: string;
-      verticalAlign?: 'top' | 'middle' | 'bottom';
-    };
+    imageConfig?: any;
+    signatureConfig?: any;
+    lineConfig?: any;
   };
 }
 
@@ -468,4 +451,3 @@ export const certificateTemplatesService = {
     }
   }
 } 
-

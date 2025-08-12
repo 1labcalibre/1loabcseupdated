@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@workspace/ui/components/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
+import { Input } from "@workspace/ui/components/input"
+import { Label } from "@workspace/ui/components/label"
 import { ArrowLeft, Edit, Plus, Trash2, X, Save, FileText, Eye, Factory, Loader2, Check } from "lucide-react"
 import { productsService, type Product, type ProductSpecification } from "@/lib/firebase/services/products"
 import { useAuth } from "@/contexts/auth-context"
@@ -157,32 +157,18 @@ export default function ProductsPage() {
   const updateSpecification = (index: number, field: keyof ProductSpecification, value: string | number) => {
     if (editingProduct) {
       const updatedSpecs = [...editingProduct.specifications]
-      const currentSpec = updatedSpecs[index]
-      updatedSpecs[index] = { 
-        property: currentSpec?.property || '',
-        unit: currentSpec?.unit || '',
-        standard: currentSpec?.standard || '',
-        specification: currentSpec?.specification || '',
-        typicalValue: currentSpec?.typicalValue || '',
-        ...currentSpec,
-        [field]: value 
-      }
+      const updatedSpec = { ...updatedSpecs[index] }
+      ;(updatedSpec as any)[field] = value || ''
+      updatedSpecs[index] = updatedSpec as ProductSpecification
       setEditingProduct({ ...editingProduct, specifications: updatedSpecs })
     }
   }
 
   const updateFormSpecification = (index: number, field: keyof ProductSpecification, value: string | number) => {
     const updatedSpecs = [...formData.specifications]
-    const currentSpec = updatedSpecs[index]
-    updatedSpecs[index] = { 
-      property: currentSpec?.property || '',
-      unit: currentSpec?.unit || '',
-      standard: currentSpec?.standard || '',
-      specification: currentSpec?.specification || '',
-      typicalValue: currentSpec?.typicalValue || '',
-      ...currentSpec,
-      [field]: value 
-    }
+    const updatedSpec = { ...updatedSpecs[index] }
+    ;(updatedSpec as any)[field] = value || ''
+    updatedSpecs[index] = updatedSpec as ProductSpecification
     setFormData({ ...formData, specifications: updatedSpecs })
   }
 
@@ -791,4 +777,3 @@ export default function ProductsPage() {
     </ProtectedRoute>
   )
 } 
-

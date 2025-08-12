@@ -59,7 +59,7 @@ export function ProtectedRoute({
   if (page && pagePermission && userData && userData.permissions) {
     const pagePerms = (userData.permissions as any)[page]
     if (pagePerms && typeof pagePerms === 'object' && 'canView' in pagePerms) {
-      if (!(pagePerms as any)[pagePermission]) {
+      if (!pagePerms[pagePermission]) {
         return (
           <div className="min-h-screen flex items-center justify-center" suppressHydrationWarning>
             <div className="text-center">
@@ -98,4 +98,3 @@ export function ProtectedRoute({
 
   return <>{children}</>
 } 
-

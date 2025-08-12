@@ -19,9 +19,10 @@ import { MACHINE_TESTS, getMachineTests, SHIFT_OPTIONS } from "@/lib/firebase/ut
 import { validateTestValue, getRangeDisplay, hasOutOfRangeValues } from "@/lib/firebase/utils/range-validation"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
+import { Suspense } from "react"
 import { serverTimestamp } from "firebase/firestore"
 
-export default function TestEntryPage() {
+function TestEntryContent() {
   const { user, userData, getRedirectPath } = useAuth()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -65,10 +66,10 @@ export default function TestEntryPage() {
   // Effect to recalculate hasInvalidValues whenever validation results or test values change
   useEffect(() => {
     const hasInvalid = Object.entries(validationResults).some(([key, v]) => {
-      const fieldHasValue = (testValues as any)[key];
-      const isInvalid = fieldHasValue && !(v as any).isValid;
+      const fieldHasValue = testValues[key];
+      const isInvalid = fieldHasValue && !v.isValid;
       if (isInvalid) {
-        console.log(`Invalid validation found for ${key}:`, { value: (testValues as any)[key], validation: v });
+        console.log(`Invalid validation found for ${key}:`, { value: testValues[key], validation: v });
       }
       return isInvalid;
     });
@@ -382,8 +383,8 @@ export default function TestEntryPage() {
           productCode: selectedProduct.internalCode || selectedProduct.name.substring(0, 4).toUpperCase(),
           batchNo: formData.batchNo,
           shift: formData.shift as 'A' | 'B' | 'C',
-          testDate: formData.date!,
-          testTime: new Date().toTimeString().split(' ')[0] || '00:00:00',
+          testDate: (formData.date || new Date().toISOString().split('T')[0]) as string,
+          testTime: new Date().toTimeString().split(' ')[0] as string,
           recordNo: formData.recordNo,
           shiftIncharge: formData.shiftIncharge,
           operator: formData.testedBy,
@@ -877,23 +878,23 @@ export default function TestEntryPage() {
                                   disabled={test.key === 'rheoTS2Sec' || test.key === 'rheoTC90Sec'}
                                   className={`
                                     ${test.key === 'rheoTS2Sec' || test.key === 'rheoTC90Sec' ? 'bg-gray-100' : ''}
-                                    ${validationResults[test.key] && !(validationResults[test.key] as any)?.isValid ? 'border-red-500 bg-red-50' : ''}
+                                    ${validationResults[test.key] && !validationResults[test.key]?.isValid ? 'border-red-500 bg-red-50' : ''}
                                   `}
                                 />
-                                {validationResults[test.key] && !(validationResults[test.key] as any)?.isValid && (
+                                {validationResults[test.key] && !validationResults[test.key]?.isValid && (
                                   <div className="absolute right-2 top-2">
                                     <AlertCircle className="h-4 w-4 text-red-500" />
                                   </div>
                                 )}
-                                {validationResults[test.key] && (validationResults[test.key] as any)?.isValid && testValues[test.key] && (
+                                {validationResults[test.key] && validationResults[test.key]?.isValid && testValues[test.key] && (
                                   <div className="absolute right-2 top-2">
                                     <CheckCircle className="h-4 w-4 text-green-500" />
                                   </div>
                                 )}
                               </div>
-                              {validationResults[test.key] && !(validationResults[test.key] as any)?.isValid && (
+                              {validationResults[test.key] && !validationResults[test.key]?.isValid && (
                                 <p className="text-xs text-red-600">
-                                  {(validationResults[test.key] as any)?.message}
+                                  {validationResults[test.key]?.message}
                                 </p>
                               )}
                             </div>
@@ -1311,5 +1312,12 @@ export default function TestEntryPage() {
       </div>
     </ProtectedRoute>
   )
-} 
+}
 
+export default function TestEntryPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TestEntryContent />
+    </Suspense>
+  )
+} 

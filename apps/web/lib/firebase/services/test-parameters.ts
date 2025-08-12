@@ -19,8 +19,6 @@ export interface TestParameter {
   isCalculated?: boolean
   calculationFormula?: string
   active: boolean
-  createdAt?: any
-  updatedAt?: any
 }
 
 const COLLECTION = 'testParameters'
@@ -61,7 +59,7 @@ export const testParametersService = {
     }
     
     if (!parameter.id) {
-      data.createdAt = serverTimestamp()
+      ;(data as any).createdAt = serverTimestamp()
     }
     
     await setDoc(docRef, data)
@@ -100,4 +98,3 @@ export const testParametersService = {
     }
   }
 } 
-

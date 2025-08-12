@@ -148,7 +148,17 @@ export const certificatesService = {
     return { id: docRef.id, certificateNo }
   },
 
-
+  // Reject certificate
+  async reject(id: string, rejectedBy: string, reason: string = "Rejected") {
+    const docRef = doc(db, COLLECTION, id)
+    await updateDoc(docRef, {
+      status: 'rejected',
+      rejectedBy,
+      rejectedAt: serverTimestamp(),
+      rejectionReason: reason,
+      updatedAt: serverTimestamp()
+    })
+  },
 
   // Issue certificate
   async issue(id: string, userId: string) {
@@ -183,18 +193,6 @@ export const certificatesService = {
       status: 'approved',
       approvedBy,
       approvedAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    })
-  },
-
-  // Reject certificate
-  async reject(id: string, rejectedBy: string, rejectionReason: string) {
-    const docRef = doc(db, COLLECTION, id)
-    await updateDoc(docRef, {
-      status: 'rejected',
-      rejectedBy,
-      rejectedAt: serverTimestamp(),
-      rejectionReason,
       updatedAt: serverTimestamp()
     })
   },
@@ -268,4 +266,3 @@ export const certificatesService = {
     })
   }
 } 
-

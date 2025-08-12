@@ -1,17 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
-
-export const dynamic = 'force-dynamic'
-import nodemailer from 'nodemailer'
+import { NextRequest, NextResponse } from "next/server"
+import nodemailer from "nodemailer"
 
 export async function POST(request: NextRequest) {
   try {
     const { smtpSettings } = await request.json()
 
-    if (!smtpSettings || !smtpSettings.smtpHost || !smtpSettings.smtpUser) {
-      return NextResponse.json(
-        { success: false, error: 'SMTP settings are incomplete' },
-        { status: 400 }
-      )
+    if (!smtpSettings) {
+      return NextResponse.json({ error: "SMTP settings are required" }, { status: 400 })
     }
 
     // Create transporter
@@ -21,55 +16,43 @@ export async function POST(request: NextRequest) {
       secure: smtpSettings.smtpPort === 465,
       auth: {
         user: smtpSettings.smtpUser,
-        pass: smtpSettings.smtpPassword,
-      },
+        pass: smtpSettings.smtpPassword
+      }
     })
 
-    // Verify connection
-    await transporter.verify()
-
-    // Send test email
+    // Test email content
     const mailOptions = {
       from: smtpSettings.smtpUser,
       to: smtpSettings.smtpUser, // Send to self for testing
-      subject: 'Email Configuration Test - Calibre Certificate System',
+      subject: 'Calibre Project - Email Configuration Test',
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #667eea;">✅ Email Configuration Test Successful!</h2>
-          <p>This is a test email from your Calibre Certificate Management System.</p>
-          <p><strong>SMTP Configuration Details:</strong></p>
-          <ul>
-            <li>Host: ${smtpSettings.smtpHost}</li>
-            <li>Port: ${smtpSettings.smtpPort}</li>
-            <li>Username: ${smtpSettings.smtpUser}</li>
-            <li>Secure: ${smtpSettings.smtpPort === 465 ? 'Yes' : 'No'}</li>
-          </ul>
-          <p>If you received this email, your email configuration is working correctly!</p>
-          <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">Email Configuration Test</h2>
+          <p>This is a test email to verify your SMTP configuration is working correctly.</p>
+          <p><strong>SMTP Host:</strong> ${smtpSettings.smtpHost}</p>
+          <p><strong>SMTP Port:</strong> ${smtpSettings.smtpPort}</p>
+          <p><strong>From:</strong> ${smtpSettings.smtpUser}</p>
+          <hr style="border: 1px solid #eee; margin: 20px 0;">
           <p style="color: #666; font-size: 12px;">
-            This is an automated test email from Calibre Certificate Management System.
+            This email was sent from the Calibre Project application to test the email configuration.
           </p>
         </div>
       `
     }
 
+    // Send test email
     await transporter.sendMail(mailOptions)
 
-    return NextResponse.json({
-      success: true,
-      message: 'Test email sent successfully! Check your inbox.'
+    return NextResponse.json({ 
+      success: true, 
+      message: "Test email sent successfully!" 
     })
 
   } catch (error) {
-    console.error('Test email error:', error)
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to send test email'
-      },
-      { status: 500 }
-    )
+    console.error("Error sending test email:", error)
+    return NextResponse.json({ 
+      error: "Failed to send test email", 
+      details: error instanceof Error ? error.message : "Unknown error"
+    }, { status: 500 })
   }
 }
-
-

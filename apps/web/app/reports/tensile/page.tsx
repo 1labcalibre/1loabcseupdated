@@ -1,15 +1,15 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
+import { Button } from "@workspace/ui/components/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { ArrowLeft, Download, Printer } from "lucide-react"
 import { productsService, type Product } from "@/lib/firebase/services/products"
 
-function TensileReportPageContent() {
+export default function TensileReportPage() {
   const router = useRouter()
   const [reportData, setReportData] = useState<any>(null)
   const [product, setProduct] = useState<Product | null>(null)
@@ -144,16 +144,16 @@ function TensileReportPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {product.specifications.map((spec) => {
-                    const stats = reportData.statistics[spec.property]
+                  {(product as any).attributes?.map((attr: any) => {
+                    const stats = reportData.statistics[attr.name]
                     return (
-                      <TableRow key={spec.property}>
-                        <TableCell className="font-medium">{spec.property}</TableCell>
-                        <TableCell>{spec.unit}</TableCell>
+                      <TableRow key={attr.name}>
+                        <TableCell className="font-medium">{attr.name}</TableCell>
+                        <TableCell>{attr.unit}</TableCell>
                         <TableCell>{stats?.min || '-'}</TableCell>
                         <TableCell>{stats?.mean || '-'}</TableCell>
                         <TableCell>{stats?.max || '-'}</TableCell>
-                        <TableCell>{spec.specification}</TableCell>
+                        <TableCell>{attr.min} - {attr.max}</TableCell>
                       </TableRow>
                     )
                   })}
@@ -185,13 +185,4 @@ function TensileReportPageContent() {
       </main>
     </div>
   )
-}
-
-export default function TensileReportPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <TensileReportPageContent />
-    </Suspense>
-  )
 } 
-

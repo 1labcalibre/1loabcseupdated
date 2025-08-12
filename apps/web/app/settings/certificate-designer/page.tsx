@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
-import { CertificateDesigner } from "@/components/certificate-designer"
+// Certificate designer removed - component not needed
 
 export default function CertificateDesignerPage() {
   const [templates, setTemplates] = useState([])
@@ -33,10 +33,12 @@ export default function CertificateDesignerPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
-        <CertificateDesigner 
-          onSave={handleSaveTemplate}
-          templates={templates}
-        />
+        <div className="text-center p-8">
+          <p className="text-lg text-gray-600">Certificate Designer has been removed from this project.</p>
+          <Link href="/settings">
+            <Button className="mt-4">Return to Settings</Button>
+          </Link>
+        </div>
       </main>
     </div>
   )

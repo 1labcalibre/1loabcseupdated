@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Printer } from "lucide-react"
@@ -44,7 +44,7 @@ interface CertificateData {
   rejectedAt?: any
 }
 
-export default function CertificateViewPage() {
+function CertificateViewContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [certificateData, setCertificateData] = useState<CertificateData | null>(null)
@@ -728,6 +728,14 @@ export default function CertificateViewPage() {
         }
       `}</style>
     </div>
+  )
+}
+
+export default function CertificateViewPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CertificateViewContent />
+    </Suspense>
   )
 }
 
